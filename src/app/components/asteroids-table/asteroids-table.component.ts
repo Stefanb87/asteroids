@@ -12,6 +12,7 @@ export class AsteroidsTableComponent implements OnInit {
   private gridColumnApi;
   private columnDefs;
   private sortingOrder;
+  initTable = false;
 
   constructor( private asteroidsService: AsteroidsServiceService ) {
     this.columnDefs = [
@@ -34,6 +35,7 @@ export class AsteroidsTableComponent implements OnInit {
         console.log(error);
       }
     );
+    this.initTable = this.asteroidsService.initializeTable;
   }
 
   ngOnInit() {
