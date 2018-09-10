@@ -16,7 +16,28 @@ export class AsteroidsServiceService {
     return this.http.get(this.api).pipe(
       map((response: Response) => {
         const data = response.json();
-        return data;
+        const allAsteroidsByDate = [];
+        const mappedAsteroidData: {}[] = [];
+        for (const item in data.near_earth_objects) {
+          allAsteroidsByDate.push(data.near_earth_objects[item]);
+        }
+        allAsteroidsByDate.forEach((arr, a) => {
+          arr.forEach((obj, o) => {
+            if(obj.is_potentially_hazardous_asteroid) {
+              mappedAsteroidData.push(
+                {
+                  close_approach_date: obj.close_approach_data[0].close_approach_date,
+                  name: obj.name,
+                  kilometers_per_hour: obj.close_approach_data[0].relative_velocity.kilometers_per_hour,
+                  estimated_diameter_min: obj.estimated_diameter.meters.estimated_diameter_min,
+                  estimated_diameter_max: obj.estimated_diameter.meters.estimated_diameter_max
+                }
+              );
+            }
+          });
+        });
+        // console.log(mappedAsteroidData);
+        return mappedAsteroidData;
       }), 
       catchError((error: Response) => {
         return Observable.throw('Something went wrong');

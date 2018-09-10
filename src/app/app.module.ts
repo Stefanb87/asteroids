@@ -7,6 +7,7 @@ import { HttpModule } from '@angular/http';
 // import { MatInputModule } from '@angular/material/input';
 // import { MatNativeDateModule, MatFormFieldModule, NativeDateModule } from '@angular/material';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AgGridModule } from 'ag-grid-angular';
 
 import { AsteroidsServiceService } from './services/asteroids-service.service';
 
@@ -31,7 +32,8 @@ import { DatepickComponent } from './components/datepick/datepick.component';
     // MatNativeDateModule,
     // NativeDateModule,
     // MatFormFieldModule,
-    NgbModule
+    NgbModule,
+    AgGridModule.withComponents([])
   ],
   providers: [AsteroidsServiceService],
   bootstrap: [AppComponent]

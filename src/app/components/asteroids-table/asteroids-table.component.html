@@ -1,3 +1,10 @@
-<p>
-  asteroids-table works!
-</p>
+<ag-grid-angular 
+    style="width: 900px; height: 400px;" 
+    class="ag-theme-balham" 
+    [columnDefs]="columnDefs"
+    (gridReady)="onGridReady($event)"
+    [enableSorting]="true"
+    [animateRows]="true"
+    [pagination]="true"
+    >
+</ag-grid-angular>
