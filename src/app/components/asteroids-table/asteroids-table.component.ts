@@ -8,10 +8,10 @@ import { AsteroidsServiceService } from 'src/app/services/asteroids-service.serv
 })
 export class AsteroidsTableComponent implements OnInit {
 
-  private gridApi;
-  private gridColumnApi;
-  private columnDefs;
-  private sortingOrder;
+  gridApi;
+  gridColumnApi;
+  columnDefs;
+  sortingOrder;
   initTable = false;
 
   constructor( private asteroidsService: AsteroidsServiceService ) {
@@ -22,6 +22,12 @@ export class AsteroidsTableComponent implements OnInit {
       {headerName: 'Estimated_diameter_min', field: 'estimated_diameter_min', width: 180},
       {headerName: 'Estimated_diameter_max', field: 'estimated_diameter_max', width: 180}
     ];
+  }
+
+  ngOnInit() {
+    this.asteroidsService.initializeTable.subscribe((bool: boolean) => {
+      this.initTable = bool;
+    });
   }
 
   onGridReady(params) {
@@ -35,10 +41,6 @@ export class AsteroidsTableComponent implements OnInit {
         console.log(error);
       }
     );
-    this.initTable = this.asteroidsService.initializeTable;
-  }
-
-  ngOnInit() {
   }
 
 }

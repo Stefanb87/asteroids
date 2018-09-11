@@ -1,25 +1,34 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { map, catchError  } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, Observer } from 'rxjs';
+import { Subject } from 'rxjs/internal/Subject';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AsteroidsServiceService {
 
-  startDate: string = '';
-  endDate: string = '';
-  initializeTable = false;
-  
-  api: string = 'https://api.nasa.gov/neo/rest/v1/feed?start_date=' + this.startDate + '&end_date=' + this.endDate + '&api_key=x0HeIJzRCLm3lj0zrfXt2LltusKVCO7aoHmRkVq2';
+  startDate = new Subject();
+  endDate = new Subject();
+  initializeTable = new Subject();
+  initializeList = new Subject();
+  sDate;
+  eDate;
 
-  constructor(private http: Http) { }
+  constructor(private http: Http) { 
+    this.startDate.subscribe((date: string) => {
+      this.sDate = date;
+    });
+    this.endDate.subscribe((date: string) => {
+      this.eDate = date;
+    });
+  }
 
   getAsteroids() {
-    console.log('getAsteroids',this.startDate, this.endDate);
-    this.initializeTable = true;
-    return this.http.get(this.api).pipe(
+    console.log('getAsteroids',this.sDate, this.eDate);
+    
+    return this.http.get('https://api.nasa.gov/neo/rest/v1/feed?start_date=' + this.sDate + '&end_date=' + this.eDate + '&api_key=x0HeIJzRCLm3lj0zrfXt2LltusKVCO7aoHmRkVq2').pipe(
       map((response: Response) => {
         const data = response.json();
         const allAsteroidsByDate = [];

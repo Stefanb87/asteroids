@@ -45,8 +45,10 @@ export class DatepickComponent implements OnInit {
     }
     
     console.log(this.formattedStartDate, this.formattedEndDate);
-    this.asteroidsService.startDate = this.formattedStartDate;
-    this.asteroidsService.endDate = this.formattedEndDate;
+    this.asteroidsService.startDate.next(this.formattedStartDate);
+    this.asteroidsService.endDate.next(this.formattedEndDate);
+    this.asteroidsService.initializeTable.next(true);
+    this.asteroidsService.initializeList.next(true);
     this.asteroidsService.getAsteroids();
   }
 
