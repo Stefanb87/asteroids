@@ -15,6 +15,12 @@ export class AsteroidsServiceService {
   initializeList = new Subject();
   sDate;
   eDate;
+  dataNameAndDate: {}[] = [];
+
+  nearEarthPassData = new Subject();
+  passData;
+  passDataFromApiSubj = new Subject();
+  passDataFromApi;
 
   constructor(private http: Http) { 
     this.startDate.subscribe((date: string) => {
@@ -23,14 +29,21 @@ export class AsteroidsServiceService {
     this.endDate.subscribe((date: string) => {
       this.eDate = date;
     });
+    this.nearEarthPassData.subscribe((passData: {}) => {
+      this.passData = passData;
+      console.log('SERVICEPASS', this.passData)
+    });
+    this.passDataFromApiSubj.subscribe((data: {}[]) => {
+      this.passDataFromApi = data;
+      console.log('PASSINGDATASER', this.passDataFromApi)
+    });
   }
 
-  getAsteroids() {
-    console.log('getAsteroids',this.sDate, this.eDate);
-    
+  getAsteroids() {   
     return this.http.get('https://api.nasa.gov/neo/rest/v1/feed?start_date=' + this.sDate + '&end_date=' + this.eDate + '&api_key=x0HeIJzRCLm3lj0zrfXt2LltusKVCO7aoHmRkVq2').pipe(
       map((response: Response) => {
         const data = response.json();
+        console.log('DATA', data);
         const allAsteroidsByDate = [];
         const mappedAsteroidData: {}[] = [];
         for (const item in data.near_earth_objects) {
@@ -45,13 +58,14 @@ export class AsteroidsServiceService {
                   name: obj.name,
                   kilometers_per_hour: obj.close_approach_data[0].relative_velocity.kilometers_per_hour,
                   estimated_diameter_min: obj.estimated_diameter.meters.estimated_diameter_min,
-                  estimated_diameter_max: obj.estimated_diameter.meters.estimated_diameter_max
+                  estimated_diameter_max: obj.estimated_diameter.meters.estimated_diameter_max,
+                  self: obj.links.self
                 }
               );
             }
           });
         });
-        // console.log(mappedAsteroidData);
+        //console.log(mappedAsteroidData);
         return mappedAsteroidData;
       }), 
       catchError((error: Response) => {
@@ -59,4 +73,6 @@ export class AsteroidsServiceService {
       })
     );
   }
+
+
 }

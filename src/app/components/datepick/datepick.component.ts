@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AsteroidsServiceService } from 'src/app/services/asteroids-service.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-datepick',
@@ -13,13 +14,25 @@ export class DatepickComponent implements OnInit {
   dateEnd: {};
   formattedStartDate: string;
   formattedEndDate: string;
+  errorMoreThanSeven: boolean = false;
+  errorLessThanStart: boolean = false;
 
   constructor(private asteroidsService: AsteroidsServiceService) { }
 
   ngOnInit() {
   }
 
-  logDate() {
+  onSubmit(form: NgForm) {
+    if(this.dateEnd.day - this.dateStart.day > 7) {
+      console.log('datum veci od 7 dana');
+      this.errorMoreThanSeven = true;
+      return;
+    }
+    if(this.dateEnd.day <= this.dateStart.day) {
+      console.log('endDate manji od startDate');
+      this.errorLessThanStart = true;
+      return;
+    }
     if (this.dateStart.month < 10 && this.dateStart.day >= 10) {
       let formattedStartMonth = "0" + this.dateStart.month + "";
       this.formattedStartDate = this.dateStart.year + '-' + formattedStartMonth + '-' + this.dateStart.day;
@@ -44,7 +57,6 @@ export class DatepickComponent implements OnInit {
       this.formattedEndDate = this.dateEnd.year + '-' + formattedEndMonth + '-' + formattedEndDay;
     }
     
-    console.log(this.formattedStartDate, this.formattedEndDate);
     this.asteroidsService.startDate.next(this.formattedStartDate);
     this.asteroidsService.endDate.next(this.formattedEndDate);
     this.asteroidsService.initializeTable.next(true);
@@ -52,4 +64,8 @@ export class DatepickComponent implements OnInit {
     this.asteroidsService.getAsteroids();
   }
 
+  resetErrors(flag) {
+    this.errorMoreThanSeven = flag;
+    this.errorLessThanStart = flag;
+  }
 }

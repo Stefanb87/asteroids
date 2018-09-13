@@ -1,19 +1,21 @@
-<form class="form-inline">
+<form class="form-inline" (ngSubmit)="onSubmit(f)" #f="ngForm">
   <div class="form-group">
-    <div class="input-group">
+    <div class="input-group" (click)="resetErrors(false)">
         <input type="text" ngbDatepicker #dStart="ngbDatepicker" [(ngModel)]="dateStart" name="StartDate"/>
       <div class="input-group-append">
         <button class="btn btn-outline-secondary calendar" (click)="dStart.toggle()" type="button"></button>
       </div>
     </div>
 
-    <div class="input-group">
+    <div class="input-group"  (click)="resetErrors(false)">
         <input type="text" ngbDatepicker #dEnd="ngbDatepicker" [(ngModel)]="dateEnd" name="EndDate"/>
       <div class="input-group-append">
         <button class="btn btn-outline-secondary calendar" (click)="dEnd.toggle()" type="button"></button>
       </div>
     </div>
   </div>
-</form>
+  <p *ngIf="errorMoreThanSeven">datum veci od 7 dana</p>
+  <p *ngIf="errorLessThanStart">endDate manji od startDate</p>
 
-<button (click)="logDate()">Show Asteroids</button>
+  <button type="submit">Show Asteroids</button>
+</form>

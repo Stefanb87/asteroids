@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material';
 import { MatAutocompleteModule } from '@angular/material';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AgGridModule } from 'ag-grid-angular';
+import { Routes, RouterModule } from '@angular/router';
 
 import { AsteroidsServiceService } from './services/asteroids-service.service';
 
@@ -15,13 +16,20 @@ import { AppComponent } from './app.component';
 import { AsteroidsTableComponent } from './components/asteroids-table/asteroids-table.component';
 import { DatepickComponent } from './components/datepick/datepick.component';
 import { AsteroidsListComponent } from './components/asteroids-list/asteroids-list.component';
+import { PassingsNearEarthComponent } from './components/passings-near-earth/passings-near-earth.component';
+
+const appRoutes: Routes = [
+  { path: '', component: AppComponent },
+  { path: 'passings', component: PassingsNearEarthComponent }
+];
 
 @NgModule({
   declarations: [
     AppComponent,
     AsteroidsTableComponent,
     DatepickComponent,
-    AsteroidsListComponent
+    AsteroidsListComponent,
+    PassingsNearEarthComponent
   ],
   imports: [
     BrowserModule,
@@ -32,9 +40,9 @@ import { AsteroidsListComponent } from './components/asteroids-list/asteroids-li
     MatInputModule,
     MatFormFieldModule,
     MatAutocompleteModule,
-
     NgbModule,
-    AgGridModule.withComponents([])
+    AgGridModule.withComponents([]),
+    RouterModule.forRoot(appRoutes)
   ],
   providers: [AsteroidsServiceService],
   bootstrap: [AppComponent]
