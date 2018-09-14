@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AsteroidsServiceService } from 'src/app/services/asteroids-service.service';
 import { NgForm } from '@angular/forms';
+import { AsteroidsTableComponent } from '../asteroids-table/asteroids-table.component';
 
 @Component({
   selector: 'app-datepick',
@@ -16,23 +17,22 @@ export class DatepickComponent implements OnInit {
   formattedEndDate: string;
   errorMoreThanSeven: boolean = false;
   errorLessThanStart: boolean = false;
+  init: boolean = false;
 
   constructor(private asteroidsService: AsteroidsServiceService) { }
 
   ngOnInit() {
   }
 
-  onSubmit(form: NgForm) {
+  onSubmit() {
     if(this.dateEnd.day - this.dateStart.day > 7) {
-      console.log('datum veci od 7 dana');
       this.errorMoreThanSeven = true;
       return;
-    }
-    if(this.dateEnd.day <= this.dateStart.day) {
-      console.log('endDate manji od startDate');
+    } else if (this.dateEnd.day <= this.dateStart.day) {
       this.errorLessThanStart = true;
       return;
     }
+
     if (this.dateStart.month < 10 && this.dateStart.day >= 10) {
       let formattedStartMonth = "0" + this.dateStart.month + "";
       this.formattedStartDate = this.dateStart.year + '-' + formattedStartMonth + '-' + this.dateStart.day;
@@ -57,11 +57,17 @@ export class DatepickComponent implements OnInit {
       this.formattedEndDate = this.dateEnd.year + '-' + formattedEndMonth + '-' + formattedEndDay;
     }
     
-    this.asteroidsService.startDate.next(this.formattedStartDate);
-    this.asteroidsService.endDate.next(this.formattedEndDate);
-    this.asteroidsService.initializeTable.next(true);
-    this.asteroidsService.initializeList.next(true);
-    this.asteroidsService.getAsteroids();
+    // this.asteroidsService.startDate.next(this.formattedStartDate);
+    // this.asteroidsService.endDate.next(this.formattedEndDate);
+    // this.asteroidsService.initializeTable.next(true);
+    // this.asteroidsService.initializeList.next(true);
+    this.asteroidsService.getAsteroids(this.formattedStartDate, this.formattedEndDate);
+
+    if(this.init) {
+      let table = new AsteroidsTableComponent(this.asteroidsService);
+      table.onGridReady(this.asteroidsService.gridParams);
+    }
+    this.init = true;
   }
 
   resetErrors(flag) {

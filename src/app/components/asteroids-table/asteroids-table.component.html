@@ -1,7 +1,7 @@
 <ag-grid-angular
     *ngIf="initTable"
     style="width: 900px; height: 400px;" 
-    class="ag-theme-balham" 
+    class="ag-theme-balham table" 
     [columnDefs]="columnDefs"
     (gridReady)="onGridReady($event)"
     [enableSorting]="true"
@@ -9,3 +9,4 @@
     [pagination]="true"
     >
 </ag-grid-angular>
+<app-asteroids-list *ngIf="initList"></app-asteroids-list>

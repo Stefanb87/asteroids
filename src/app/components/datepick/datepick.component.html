@@ -1,21 +1,24 @@
-<form class="form-inline" (ngSubmit)="onSubmit(f)" #f="ngForm">
-  <div class="form-group">
-    <div class="input-group" (click)="resetErrors(false)">
-        <input type="text" ngbDatepicker #dStart="ngbDatepicker" [(ngModel)]="dateStart" name="StartDate"/>
+<form class="form-inline form" #f='ngForm'>
+  <div class="form-group fGroup">
+    <div class="input-group datepickStart" (click)="resetErrors(false)">
+        <input required type="text" ngbDatepicker #dStart="ngbDatepicker" [(ngModel)]="dateStart" name="StartDate"/>
       <div class="input-group-append">
         <button class="btn btn-outline-secondary calendar" (click)="dStart.toggle()" type="button"></button>
       </div>
     </div>
 
-    <div class="input-group"  (click)="resetErrors(false)">
-        <input type="text" ngbDatepicker #dEnd="ngbDatepicker" [(ngModel)]="dateEnd" name="EndDate"/>
+    <div class="input-group datepickEnd"  (click)="resetErrors(false)">
+        <input required type="text" ngbDatepicker #dEnd="ngbDatepicker" [(ngModel)]="dateEnd" name="EndDate"/>
       <div class="input-group-append">
         <button class="btn btn-outline-secondary calendar" (click)="dEnd.toggle()" type="button"></button>
       </div>
     </div>
   </div>
-  <p *ngIf="errorMoreThanSeven">datum veci od 7 dana</p>
-  <p *ngIf="errorLessThanStart">endDate manji od startDate</p>
-
-  <button type="submit">Show Asteroids</button>
+  <p *ngIf="errorMoreThanSeven">Number of days between Start date and End date must not be higher than 7.</p>
+  <p *ngIf="!f.valid && f.touched">Please enter all values.</p>
+  <p *ngIf="errorLessThanStart">End date must be higher than Start date.</p>
+  <div class="container">
+    <button [disabled]="!f.valid" class="btnShow" type="submit" (click)='onSubmit()'>Show Asteroids</button>
+  </div>
 </form>
+<app-asteroids-table></app-asteroids-table>

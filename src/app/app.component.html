@@ -1,11 +1,10 @@
-<!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
   <h1>
-    Welcome
+    Welcome to Asteroids!
   </h1>
+  <div class="container">
+    <div class="outletWrap">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
 </div>
-<app-datepick></app-datepick>
-<app-asteroids-table></app-asteroids-table>
-<app-asteroids-list *ngIf="initList"></app-asteroids-list>
-<!-- <router-outlet></router-outlet> -->
-<app-passings-near-earth></app-passings-near-earth>

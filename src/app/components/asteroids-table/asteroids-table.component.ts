@@ -13,8 +13,12 @@ export class AsteroidsTableComponent implements OnInit {
   columnDefs;
   sortingOrder;
   initTable = false;
+  initList = false;
 
   constructor( private asteroidsService: AsteroidsServiceService ) {
+    this.asteroidsService.initializeList.subscribe((bool: boolean) => {
+      this.initList = bool;
+    });
     this.columnDefs = [
       {headerName: 'Close_approach_date', field: 'close_approach_date', width: 180, sortingOrder: ['asc', 'desc'] },
       {headerName: 'Name', field: 'name', width: 180 },
@@ -31,16 +35,15 @@ export class AsteroidsTableComponent implements OnInit {
   }
 
   onGridReady(params) {
+    this.asteroidsService.gridParamsSubj.next(params);
+    console.log('PARAMS', params)
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
-    this.asteroidsService.getAsteroids().subscribe(
-      (asteroidsData: {}) => {
-        params.api.setRowData(asteroidsData);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    console.log(this.asteroidsService.asteroidsData);
+    params.api.setRowData(this.asteroidsService.asteroidsData);
   }
 
+  // reinitializeGrid() {
+  //   this.onGridReady();
+  // }
 }

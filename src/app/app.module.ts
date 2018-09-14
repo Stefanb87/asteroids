@@ -19,7 +19,7 @@ import { AsteroidsListComponent } from './components/asteroids-list/asteroids-li
 import { PassingsNearEarthComponent } from './components/passings-near-earth/passings-near-earth.component';
 
 const appRoutes: Routes = [
-  { path: '', component: AppComponent },
+  { path: '', component: DatepickComponent },
   { path: 'passings', component: PassingsNearEarthComponent }
 ];
 

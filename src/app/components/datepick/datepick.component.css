@@ -5,4 +5,32 @@ button.calendar, button.calendar:active {
     background-size: 23px;
     background-position: center;
 }
-  
+
+.form {
+    text-align: center;
+    display: block;
+}
+
+.fGroup {
+    text-align: center !important;
+}
+
+.container {
+    text-align: center;
+}
+
+.container button {
+    margin-top: 50px;
+    width: 30%;
+    background: transparent;
+    cursor: pointer;
+}
+
+.datepickEnd {
+    margin-left: 50px;
+}
+
+p {
+    color: red;
+    background-color: pink;
+}
