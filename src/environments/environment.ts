@@ -7,6 +7,7 @@ export const environment = {
 };
 
 export const nasaUrl = "https://api.nasa.gov/neo/rest/v1/feed?start_date=";
+export const nasaApiKey = '&api_key=x0HeIJzRCLm3lj0zrfXt2LltusKVCO7aoHmRkVq2';
 
 /*
  * For easier debugging in development mode, you can import the following file

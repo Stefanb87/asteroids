@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AsteroidsServiceService } from 'src/app/services/asteroids-service.service';
-import { NgForm } from '@angular/forms';
-import { AsteroidsTableComponent } from '../asteroids-table/asteroids-table.component';
+import { AsteroidsService } from '../../services/asteroids/asteroids.service';
+import { DateObj } from '../../interfaces/date-obj';
 
 @Component({
   selector: 'app-datepick',
@@ -10,65 +9,61 @@ import { AsteroidsTableComponent } from '../asteroids-table/asteroids-table.comp
 })
 export class DatepickComponent implements OnInit {
 
-  asteroidsData: {};
-  dateStart: {};
-  dateEnd: {};
+  startDateInput: DateObj;
+  endDateInput: DateObj;
   formattedStartDate: string;
   formattedEndDate: string;
+  tableInit: boolean;
+
   errorMoreThanSeven: boolean = false;
   errorLessThanStart: boolean = false;
-  init: boolean = false;
 
-  constructor(private asteroidsService: AsteroidsServiceService) { }
+  constructor(private asteroidsService: AsteroidsService) { }
 
   ngOnInit() {
   }
 
   onSubmit() {
-    if(this.dateEnd.day - this.dateStart.day > 7) {
+    this.asteroidsService.asteroidsDataForTableSubj.next([]);
+    if(this.endDateInput.day - this.startDateInput.day > 7) {
       this.errorMoreThanSeven = true;
       return;
-    } else if (this.dateEnd.day <= this.dateStart.day) {
+    } else if (this.endDateInput.day <= this.startDateInput.day) {
       this.errorLessThanStart = true;
       return;
     }
 
-    if (this.dateStart.month < 10 && this.dateStart.day >= 10) {
-      let formattedStartMonth = "0" + this.dateStart.month + "";
-      this.formattedStartDate = this.dateStart.year + '-' + formattedStartMonth + '-' + this.dateStart.day;
-    } else if (this.dateStart.month >= 10 && this.dateStart.day < 10) {
-      let formattedStartDay = "0" + this.dateStart.day + "";
-      this.formattedStartDate = this.dateStart.year + '-' + this.dateStart.month + '-' + formattedStartDay;
-    } else if (this.dateStart.month < 10 && this.dateStart.day < 10) {
-      let formattedStartMonth = "0" + this.dateStart.month + "";
-      let formattedStartDay = "0" + this.dateStart.day + "";
-      this.formattedStartDate = this.dateStart.year + '-' + formattedStartMonth + '-' + formattedStartDay;
+    if (this.startDateInput.month < 10 && this.startDateInput.day >= 10) {
+      let formattedStartMonth = "0" + this.startDateInput.month + "";
+      this.formattedStartDate = this.startDateInput.year + '-' + formattedStartMonth + '-' + this.startDateInput.day;
+    } else if (this.startDateInput.month >= 10 && this.startDateInput.day < 10) {
+      let formattedStartDay = "0" + this.startDateInput.day + "";
+      this.formattedStartDate = this.startDateInput.year + '-' + this.startDateInput.month + '-' + formattedStartDay;
+    } else if (this.startDateInput.month < 10 && this.startDateInput.day < 10) {
+      let formattedStartMonth = "0" + this.startDateInput.month + "";
+      let formattedStartDay = "0" + this.startDateInput.day + "";
+      this.formattedStartDate = this.startDateInput.year + '-' + formattedStartMonth + '-' + formattedStartDay;
     }
 
-    if (this.dateEnd.month < 10 && this.dateEnd.day >= 10) {
-      let formattedEndMonth = "0" + this.dateEnd.month + "";
-      this.formattedEndDate = this.dateEnd.year + '-' + formattedEndMonth + '-' + this.dateEnd.day;
-    } else if (this.dateEnd.month >= 10 && this.dateEnd.day < 10) {
-      let formattedEndDay = "0" + this.dateEnd.day + "";
-      this.formattedEndDate = this.dateEnd.year + '-' + this.dateEnd.month + '-' + formattedEndDay;
-    } else if (this.dateEnd.month < 10 && this.dateEnd.day < 10) {
-      let formattedEndMonth = "0" + this.dateEnd.month + "";
-      let formattedEndDay = "0" + this.dateEnd.day + "";
-      this.formattedEndDate = this.dateEnd.year + '-' + formattedEndMonth + '-' + formattedEndDay;
+    if (this.endDateInput.month < 10 && this.endDateInput.day >= 10) {
+      let formattedEndMonth = "0" + this.endDateInput.month + "";
+      this.formattedEndDate = this.endDateInput.year + '-' + formattedEndMonth + '-' + this.endDateInput.day;
+    } else if (this.endDateInput.month >= 10 && this.endDateInput.day < 10) {
+      let formattedEndDay = "0" + this.endDateInput.day + "";
+      this.formattedEndDate = this.endDateInput.year + '-' + this.endDateInput.month + '-' + formattedEndDay;
+    } else if (this.endDateInput.month < 10 && this.endDateInput.day < 10) {
+      let formattedEndMonth = "0" + this.endDateInput.month + "";
+      let formattedEndDay = "0" + this.endDateInput.day + "";
+      this.formattedEndDate = this.endDateInput.year + '-' + formattedEndMonth + '-' + formattedEndDay;
     }
-    
-    // this.asteroidsService.startDate.next(this.formattedStartDate);
-    // this.asteroidsService.endDate.next(this.formattedEndDate);
-    // this.asteroidsService.initializeTable.next(true);
-    // this.asteroidsService.initializeList.next(true);
-    this.asteroidsService.getAsteroids(this.formattedStartDate, this.formattedEndDate);
 
-    if(this.init) {
-      let table = new AsteroidsTableComponent(this.asteroidsService);
-      table.onGridReady(this.asteroidsService.gridParams);
-    }
-    this.init = true;
+    this.asteroidsService.startDateSubj.next(this.formattedStartDate);
+    this.asteroidsService.endDateSubj.next(this.formattedEndDate);
+    this.asteroidsService.extractAsteroidsData();
+
   }
+
+
 
   resetErrors(flag) {
     this.errorMoreThanSeven = flag;

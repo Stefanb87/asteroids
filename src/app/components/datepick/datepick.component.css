@@ -8,7 +8,7 @@ button.calendar, button.calendar:active {
 
 .form {
     text-align: center;
-    display: block;
+    display: inline-block;
 }
 
 .fGroup {

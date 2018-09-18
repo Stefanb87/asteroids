@@ -1,33 +1,28 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material';
 import { MatAutocompleteModule } from '@angular/material';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AgGridModule } from 'ag-grid-angular';
-import { Routes, RouterModule } from '@angular/router';
-
-import { AsteroidsServiceService } from './services/asteroids-service.service';
+import { RoutesModule } from './modules/routes/routes.module';
 
 import { AppComponent } from './app.component';
-import { AsteroidsTableComponent } from './components/asteroids-table/asteroids-table.component';
+import { HomeComponent } from './components/home/home.component';
 import { DatepickComponent } from './components/datepick/datepick.component';
+import { AsteroidsTableComponent } from './components/asteroids-table/asteroids-table.component';
 import { AsteroidsListComponent } from './components/asteroids-list/asteroids-list.component';
 import { PassingsNearEarthComponent } from './components/passings-near-earth/passings-near-earth.component';
-
-const appRoutes: Routes = [
-  { path: '', component: DatepickComponent },
-  { path: 'passings', component: PassingsNearEarthComponent }
-];
 
 @NgModule({
   declarations: [
     AppComponent,
-    AsteroidsTableComponent,
+    HomeComponent,
     DatepickComponent,
+    AsteroidsTableComponent,
     AsteroidsListComponent,
     PassingsNearEarthComponent
   ],
@@ -35,16 +30,16 @@ const appRoutes: Routes = [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     MatInputModule,
     MatFormFieldModule,
     MatAutocompleteModule,
     NgbModule,
     AgGridModule.withComponents([]),
-    RouterModule.forRoot(appRoutes)
+    RoutesModule
   ],
-  providers: [AsteroidsServiceService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

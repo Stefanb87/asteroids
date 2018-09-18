@@ -1,0 +1,9 @@
+<div class="container">
+  <button routerLink="">Go back</button>
+  <h3>Number of passings:</h3>
+  <ul>
+    <li *ngFor="let approachInfo of passingDataWithNo">
+      {{ approachInfo.name }}: <progress id="myBar" value="{{ approachInfo.no }}" max="100"></progress> {{ approachInfo.no }}
+    </li>
+  </ul>    
+</div>

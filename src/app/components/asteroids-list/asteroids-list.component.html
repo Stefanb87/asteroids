@@ -1,0 +1,26 @@
+<form class="example-form">
+  <mat-form-field class="example-full-width">
+    <input 
+      type="text" 
+      placeholder="Pick asteroid(s)" 
+      aria-label="Number" 
+      matInput 
+      [formControl]="selectedAsteroid" 
+      [matAutocomplete]="auto"
+    >
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let asteroid of dataForListCopy" [value]="asteroid.name" (click)="addInArray()">
+        {{asteroid.name}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</form>
+
+<ul>
+  <li #el *ngFor="let chosen of chosenAsteroidsWithSelf">
+    <span>{{ chosen.name }}</span>
+    <button type="button" (click)="remove(el)">X</button>
+  </li>
+</ul>
+<br><br>
+<button class="btnShowPassings" routerLink="/passings">Number of passings near Earth</button>

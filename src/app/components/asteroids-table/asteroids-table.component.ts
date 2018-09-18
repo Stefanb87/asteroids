@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AsteroidsServiceService } from 'src/app/services/asteroids-service.service';
+import { AsteroidsService } from '../../services/asteroids/asteroids.service';
 
 @Component({
   selector: 'app-asteroids-table',
@@ -12,13 +12,9 @@ export class AsteroidsTableComponent implements OnInit {
   gridColumnApi;
   columnDefs;
   sortingOrder;
-  initTable = false;
-  initList = false;
+  dataForTable;
 
-  constructor( private asteroidsService: AsteroidsServiceService ) {
-    this.asteroidsService.initializeList.subscribe((bool: boolean) => {
-      this.initList = bool;
-    });
+  constructor(private asteroidsService: AsteroidsService) { 
     this.columnDefs = [
       {headerName: 'Close_approach_date', field: 'close_approach_date', width: 180, sortingOrder: ['asc', 'desc'] },
       {headerName: 'Name', field: 'name', width: 180 },
@@ -29,21 +25,15 @@ export class AsteroidsTableComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.asteroidsService.initializeTable.subscribe((bool: boolean) => {
-      this.initTable = bool;
+    this.asteroidsService.asteroidsDataForTableSubj.subscribe((data) => {
+      this.dataForTable = data;
     });
   }
 
   onGridReady(params) {
-    this.asteroidsService.gridParamsSubj.next(params);
-    console.log('PARAMS', params)
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
-    console.log(this.asteroidsService.asteroidsData);
-    params.api.setRowData(this.asteroidsService.asteroidsData);
+    params.api.setRowData(this.dataForTable);
   }
 
-  // reinitializeGrid() {
-  //   this.onGridReady();
-  // }
 }

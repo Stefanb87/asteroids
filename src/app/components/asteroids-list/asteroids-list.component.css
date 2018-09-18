@@ -1,0 +1,17 @@
+ul {
+    display: inline-block;
+    list-style: none;
+    padding-left: 0px;
+    width: 400px;
+}
+
+li span {
+    display: inline-block;
+    width: 80%;
+}
+
+li button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
