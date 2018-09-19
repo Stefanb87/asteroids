@@ -10,6 +10,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AgGridModule } from 'ag-grid-angular';
 import { RoutesModule } from './modules/routes/routes.module';
 
+import { AsteroidsService } from './services/asteroids/asteroids.service';
+import { PassingDataService } from './services/passing-data/passing-data.service';
+
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { DatepickComponent } from './components/datepick/datepick.component';
@@ -39,7 +42,7 @@ import { PassingsNearEarthComponent } from './components/passings-near-earth/pas
     AgGridModule.withComponents([]),
     RoutesModule
   ],
-  providers: [],
+  providers: [AsteroidsService, PassingDataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

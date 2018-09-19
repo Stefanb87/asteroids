@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { AsteroidsService } from '../../services/asteroids/asteroids.service';
 import { ChosenAsteroidsObj } from '../../interfaces/chosen-asteroids-obj';
+import { PassingDataService } from '../../services/passing-data/passing-data.service';
 
 @Component({
   selector: 'app-asteroids-list',
@@ -15,7 +16,7 @@ export class AsteroidsListComponent implements OnInit {
   selectedAsteroid = new FormControl();
   chosenAsteroidsWithSelf: ChosenAsteroidsObj[];
 
-  constructor(private asteroidsService: AsteroidsService) {
+  constructor(private asteroidsService: AsteroidsService, private passingDataService: PassingDataService) {
     this.asteroidsService.asteroidsDataForTableSubj.subscribe((data) => {
       this.dataForList = data;
     });
@@ -69,15 +70,15 @@ export class AsteroidsListComponent implements OnInit {
     this.chosenAsteroidsWithSelf.forEach((asteroid: ChosenAsteroidsObj, a) => {
       if (asteroid.name === asteroidName) {
         this.chosenAsteroidsWithSelf.splice(a, 1);
-        this.asteroidsService.passingDataFromApi.splice(a, 1);
+        this.passingDataService.passingDataFromApi.splice(a, 1);
       }
     });
     console.log('DDD', this.chosenAsteroidsWithSelf);
-    console.log('EEE', this.asteroidsService.passingDataFromApi);
+    console.log('EEE', this.passingDataService.passingDataFromApi);
   }
 
   getPassData(self) {
-      this.asteroidsService.extractPassingData(self);
+      this.passingDataService.extractPassingData(self);
   }
   
 }

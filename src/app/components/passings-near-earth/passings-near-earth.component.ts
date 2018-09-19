@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AsteroidsService } from '../../services/asteroids/asteroids.service';
 import { PassingsDataObj } from '../../interfaces/passings-data-obj';
 import { CloseApprDataObj } from '../../interfaces/close-appr-data-obj';
+import { PassingDataService } from '../../services/passing-data/passing-data.service';
 
 @Component({
   selector: 'app-passings-near-earth',
@@ -14,10 +14,10 @@ export class PassingsNearEarthComponent implements OnInit, OnDestroy {
   passingDataWithNo: {}[] = [];
   numberOfPassings: number = 0;
 
-  constructor(private asteroidsService: AsteroidsService) { }
+  constructor(private passingDataService: PassingDataService) { }
 
   ngOnInit() {
-    this.passingData = this.asteroidsService.passingDataFromApi;
+    this.passingData = this.passingDataService.passingDataFromApi;
     this.passingDataWithNo = [];
       this.passingData.forEach((item: PassingsDataObj) => {
         item.close_approach_data.forEach((dataItem: CloseApprDataObj) => {
@@ -33,7 +33,7 @@ export class PassingsNearEarthComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.asteroidsService.passingDataFromApi = [];
+    this.passingDataService.passingDataFromApi = [];
   }
 
 }

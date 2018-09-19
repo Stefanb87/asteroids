@@ -1,29 +1,29 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MainService } from '../main/main.service';
+import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from "rxjs";
 import { AsteroidsDataObj } from '../../interfaces/asteroids-data-obj';
-import { PassingsDataObj } from '../../interfaces/passings-data-obj';
 import { ChosenAsteroidsObj } from '../../interfaces/chosen-asteroids-obj';
 import { AsterDataTableObj } from '../../interfaces/aster-data-table-obj';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AsteroidsService {
+export class AsteroidsService extends MainService<AsteroidsDataObj> {
 
   asteroidsData: any[] = [];
   asteroidsDataForTable: AsterDataTableObj[] = [];
-  asteroidsDataForTableSubj = new BehaviorSubject<{}[]>([]);
+  asteroidsDataForTableSubj = new BehaviorSubject<object[]>([]);
   startDateSubj = new BehaviorSubject<string>('');
   startDate : string;
   endDateSubj = new BehaviorSubject<string>('');
   endDate: string;
-  passingDataFromApi: PassingsDataObj[] = [];
   chosenAsteroidsWithSelfSubj = new BehaviorSubject<ChosenAsteroidsObj[]>([]);
 
 
-  constructor(private mainService: MainService) { 
+  constructor(httpClient: HttpClient) { 
+    super(httpClient);
     this.startDateSubj.subscribe((data: string) => {
       this.startDate = data;
     });
@@ -33,7 +33,7 @@ export class AsteroidsService {
   }
 
   extractAsteroidsData() {
-    this.mainService.getAsteroidData(this.startDate, this.endDate).subscribe((asteroids: AsteroidsDataObj) => {
+    this.getAsteroidData(this.startDate, this.endDate).subscribe((asteroids: AsteroidsDataObj) => {
       this.asteroidsData = [];
       this.asteroidsDataForTable = [];
       for (const item in asteroids.near_earth_objects) {
@@ -61,13 +61,6 @@ export class AsteroidsService {
     },
     (error) => {
       return Observable.throw('Something went wrong');
-    });
-  }
-
-  extractPassingData(api: string) {
-    this.mainService.getPassingData(api).subscribe((data: PassingsDataObj) => {
-      this.passingDataFromApi.push(data);
-      //console.log('passingDataFromApi', this.passingDataFromApi );
     });
   }
 }

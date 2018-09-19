@@ -9,14 +9,13 @@ import { DateObj } from '../../interfaces/date-obj';
 })
 export class DatepickComponent implements OnInit {
 
-  startDateInput: DateObj;
-  endDateInput: DateObj;
-  formattedStartDate: string;
-  formattedEndDate: string;
-  tableInit: boolean;
+  private startDateInput: DateObj;
+  private endDateInput: DateObj;
+  private formattedStartDate: string;
+  private formattedEndDate: string;
 
-  errorMoreThanSeven: boolean = false;
-  errorLessThanStart: boolean = false;
+  public errorMoreThanSeven: boolean = false;
+  public errorLessThanStart: boolean = false;
 
   constructor(private asteroidsService: AsteroidsService) { }
 
